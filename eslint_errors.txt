@@ -1,0 +1,36 @@
+
+D:\Code\mysterymessage\src\app\(auth)\sign-in\page.tsx
+  17:18  error  React Hook "useRouter" is called in function "page" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use"  react-hooks/rules-of-hooks
+  20:16  error  React Hook "useForm" is called in function "page" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use"    react-hooks/rules-of-hooks
+  83:16  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                              react/no-unescaped-entities
+
+D:\Code\mysterymessage\src\app\(auth)\sign-up\page.tsx
+  20:35  error  React Hook "useState" is called in function "page" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use"             react-hooks/rules-of-hooks
+  21:49  error  React Hook "useState" is called in function "page" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use"             react-hooks/rules-of-hooks
+  22:55  error  React Hook "useState" is called in function "page" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use"             react-hooks/rules-of-hooks
+  23:43  error  React Hook "useState" is called in function "page" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use"             react-hooks/rules-of-hooks
+  25:21  error  React Hook "useDebounceCallback" is called in function "page" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use"  react-hooks/rules-of-hooks
+  26:18  error  React Hook "useRouter" is called in function "page" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use"            react-hooks/rules-of-hooks
+  29:16  error  React Hook "useForm" is called in function "page" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use"              react-hooks/rules-of-hooks
+  38:3   error  React Hook "useEffect" is called in function "page" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use"            react-hooks/rules-of-hooks
+
+D:\Code\mysterymessage\src\app\api\accept-messages\route.ts
+  37:14  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+  46:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+  72:14  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+
+D:\Code\mysterymessage\src\app\api\auth\[...nextauth]\options.ts
+  16:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  16:50  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  43:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Code\mysterymessage\src\app\api\get-messages\route.ts
+  8:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Code\mysterymessage\src\app\api\suggest=messages\route.ts
+  1:22  warning  'UIMessage' is defined but never used               @typescript-eslint/no-unused-vars
+  1:33  warning  'convertToModelMessages' is defined but never used  @typescript-eslint/no-unused-vars
+  3:28  warning  'req' is defined but never used                     @typescript-eslint/no-unused-vars
+
+✖ 21 problems (14 errors, 7 warnings)
+
