@@ -26,10 +26,10 @@ export async function GET(request: Request) {
     try {
         // TODO: find the what it returns
         const user = await UserModel.aggregate([
-            { $match: { id: userId } },
-            { $unwind: "$messages" },
-            { $sort: { "messages.createdAt": -1 } },
-            { $group: { _id: "_id", messages: { $push: "messsages" } } },
+            { $match: { _id: userId } },
+            { $unwind: "$message" },
+            { $sort: { "message.createdAt": -1 } },
+            { $group: { _id: "$_id", messages: { $push: "$message" } } },
         ]);
 
         if (!user || user.length === 0) {

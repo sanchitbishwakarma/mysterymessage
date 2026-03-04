@@ -1,10 +1,7 @@
 "use client"
 import {
     Card,
-    CardAction,
     CardContent,
-    CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
@@ -33,40 +30,47 @@ type MessageCardProp = {
 
 export default function MessageCard({ message, onMessageDelete }: MessageCardProp) {
 
-    const handleDeleteConfirm = async (messageId: string) => {
-        const response = await axios.delete<ApiResponse>(`/api/delete-message/${message._id}`)
-        toast.success(response.data.message || "Message deleted successfully")
+    const handleDeleteConfirm = async () => {
+        try {
+            const response = await axios.delete<ApiResponse>(`/api/delete-message/${message._id}`)
+            toast.success(response.data.message || "Message deleted successfully")
+            onMessageDelete(String(message._id))
+        } catch (error) {
+            toast.error("Failed to delete message")
+        }
     }
-    onMessageDelete(message._id)
 
     return (
-        <Card>
+        <Card className="relative">
             <CardHeader>
-                <CardTitle>Card Title</CardTitle>
-                <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                        <Button variant="outline">
-                            <X className="w-5 h-5" />
-                        </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                        <AlertDialogHeader>
-                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete your
-                                account from our servers.
-                            </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={handleDeleteConfirm}>Continue</AlertDialogAction>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog>
-                <CardDescription>Card Description</CardDescription>
+                <div className="flex justify-between items-start">
+                    <CardTitle className="text-xl">{message.content}</CardTitle>
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button variant="destructive" size="icon">
+                                <X className="w-5 h-5" />
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This action cannot be undone. This will permanently delete your
+                                    message from our servers.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleDeleteConfirm}>Continue</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                </div>
+                <div className="text-sm text-gray-500">
+                    {new Date(message.createdAt).toLocaleString()}
+                </div>
             </CardHeader>
             <CardContent>
-                <p>Card Content</p>
             </CardContent>
         </Card>
     )

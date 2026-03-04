@@ -1,0 +1,27 @@
+
+D:\Code\mysterymessage\src\app\(auth)\sign-in\page.tsx
+  83:16  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+D:\Code\mysterymessage\src\app\api\accept-messages\route.ts
+  37:14  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+  46:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+  72:14  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+
+D:\Code\mysterymessage\src\app\api\auth\[...nextauth]\options.ts
+  16:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  16:50  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  43:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Code\mysterymessage\src\app\api\get-messages\route.ts
+  8:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Code\mysterymessage\src\app\api\suggest=messages\route.ts
+  1:22  warning  'UIMessage' is defined but never used               @typescript-eslint/no-unused-vars
+  1:33  warning  'convertToModelMessages' is defined but never used  @typescript-eslint/no-unused-vars
+  3:28  warning  'req' is defined but never used                     @typescript-eslint/no-unused-vars
+
+D:\Code\mysterymessage\src\components\MessageCard.tsx
+  38:18  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 12 problems (4 errors, 8 warnings)
+

@@ -1,12 +1,16 @@
 import Navbar from "@/components/Navbar";
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode;}>) {
+interface AppLayoutProps {
+  children: React.ReactNode;
+}
+  
+export default function AppLayout({ children }: AppLayoutProps) {
   return (
-    <html lang="en">
-        <body>
-          <Navbar/>
-          {children}
-        </body>
-    </html>
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <main className="flex-grow">
+        {children}
+      </main>
+    </div>
   );
 }

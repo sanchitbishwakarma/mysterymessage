@@ -20,87 +20,80 @@ export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [isSwitchLoading, setIsSwitchLoading] = useState(false)
 
+  const { data: session } = useSession()
 
-  const handleDeleteMessage = async (messageId: string) => {
-    setMessages(messages.filter((message) => message._id !== messageId))
+  const form = useForm({
+    resolver: zodResolver(acceptingMessagesSchema)
+  })
 
-    const { data: session } = useSession()
-    const { register, watch, setValue } = useForm({
-      resolver: zodResolver(acceptingMessagesSchema)
-    })
+  const { register, watch, setValue } = form;
+  const acceptMessages = watch('acceptingMessages')
 
-    const acceptMessages = watch('acceptingMessages')
-
-    const fetchAcceptMessage = useCallback(async () => {
-      setIsSwitchLoading(true)
-
-      try {
-        const response = await axios.get<ApiResponse>('/api/accept-messages')
-        setValue("acceptingMessages", response.data.isAcceptingMessage)
-      } catch (error) {
-        const axiosError = error as AxiosError<ApiResponse>
-        toast.error(axiosError.response?.data.message ?? 'Failed to fetch message settings')
-      } finally {
-        setIsSwitchLoading(false)
-      }
-
-
-    }, [setValue])
-
-    const fetchMessages = useCallback(async (refresh: boolean = false) => {
-      setIsLoading(true)
+  const fetchAcceptMessage = useCallback(async () => {
+    setIsSwitchLoading(true)
+    try {
+      const response = await axios.get<ApiResponse>('/api/accept-messages')
+      setValue("acceptingMessages", !!response.data.isAcceptingMessage)
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>
+      toast.error(axiosError.response?.data.message ?? 'Failed to fetch message settings')
+    } finally {
       setIsSwitchLoading(false)
-      try {
-        const response = await axios.get<ApiResponse>('/api/get-messages')
-        setMessages(response.data.message || [])
-        if (refresh) {
-          toast("Showing latest messages")
-        }
-      } catch (error) {
-        const axiosError = error as AxiosError<ApiResponse>
-        toast.error(axiosError.response?.data.message ?? 'Failed to fetch message settings')
-      } finally {
-        setIsSwitchLoading(false)
-        setIsLoading(false)
+    }
+  }, [setValue])
+
+  const fetchMessages = useCallback(async (refresh: boolean = false) => {
+    setIsLoading(true)
+    setIsSwitchLoading(false)
+    try {
+      const response = await axios.get<ApiResponse>('/api/get-messages')
+      setMessages(response.data.messages || [])
+      if (refresh) {
+        toast("Showing latest messages")
       }
-    }, [setIsLoading, setMessages])
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>
+      toast.error(axiosError.response?.data.message ?? 'Failed to fetch messages')
+    } finally {
+      setIsLoading(false)
+    }
+  }, [setMessages, setIsLoading])
 
-    useEffect(() => {
-      if (!session || !session.user) return;
-      fetchMessages()
-      fetchAcceptMessage()
-    }, [session, setValue, fetchAcceptMessage, fetchMessages])
-  }
+  useEffect(() => {
+    if (!session || !session.user) return;
+    fetchMessages()
+    fetchAcceptMessage()
+  }, [session, fetchAcceptMessage, fetchMessages])
 
-  // handle switch change
   const handleSwitchChange = async () => {
     try {
       const response = await axios.post<ApiResponse>('/api/accept-messages', {
         acceptMessages: !acceptMessages
       })
-
-      setValue("acceptMessage", !acceptMessage)
+      setValue("acceptingMessages", !acceptMessages)
       toast.success(response.data.message)
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>
-      toast.error(axiosError.response?.data.message ?? 'Failed to fetch message settings')
+      toast.error(axiosError.response?.data.message ?? 'Failed to update message settings')
     }
   }
 
-  const { username } = session?.user as User 
-  // TODO: do more research about what gives url 
-  const baseUrl = `${window.location.protocol}//${window.location.host}`
+  const handleDeleteMessage = (messageId: string) => {
+    setMessages(messages.filter((message) => String(message._id) !== messageId))
+  }
+
+  if (!session || !session.user) {
+    return <div>Please login</div>
+  }
+
+  const { username } = session.user as User
+  const baseUrl = typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}` : ''
   const profileUrl = `${baseUrl}/u/${username}`
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl)
-    toast.success("URL copied")
+    toast.success("URL copied to clipboard")
   }
-
-  if (!session || !session.user ) {
-    return <div>Please login</div>
-  }
-  
 
   return (
     <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
@@ -113,20 +106,20 @@ export default function DashboardPage() {
             type="text"
             value={profileUrl}
             disabled
-            className="input input-bordered w-full p-2 mr-2"
+            className="input input-bordered w-full p-2 mr-2 bg-gray-100 rounded"
           />
           <Button onClick={copyToClipboard}>Copy</Button>
         </div>
       </div>
 
-      <div className="mb-4">
+      <div className="mb-4 flex items-center">
         <Switch
-          {...register('acceptMessages')}
+          {...register('acceptingMessages')}
           checked={acceptMessages}
           onCheckedChange={handleSwitchChange}
           disabled={isSwitchLoading}
         />
-        <span className="ml-2">
+        <span className="ml-2 font-medium">
           Accept Messages: {acceptMessages ? 'On' : 'Off'}
         </span>
       </div>
@@ -146,17 +139,18 @@ export default function DashboardPage() {
           <RefreshCcw className="h-4 w-4" />
         )}
       </Button>
+
       <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
         {messages.length > 0 ? (
-          messages.map((message, index) => (
+          messages.map((message) => (
             <MessageCard
-              key={message._id}
+              key={String(message._id)}
               message={message}
               onMessageDelete={handleDeleteMessage}
             />
           ))
         ) : (
-          <p>No messages to display.</p>
+          <p className="text-gray-500">No messages to display.</p>
         )}
       </div>
     </div>
