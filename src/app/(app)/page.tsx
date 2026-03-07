@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, } from "@/components/ui/carousel"
+import {Carousel,CarouselContent,CarouselItem,CarouselNext,CarouselPrevious,} from "@/components/ui/carousel"
 import messages from "@/messages.json"
 import { Mail } from "lucide-react"
 
@@ -42,11 +42,6 @@ const Home = () => {
           <CarouselNext />
         </Carousel>
       </main>
-
-      {/* Footer */}
-      <footer className="text-center p-4 md:p-6 bg-gray-900 text-white">
-        © 2026 True Feedback. All rights reserved.
-      </footer>
     </>
   )
 }

@@ -19,7 +19,7 @@ import {
 import { Button } from "./ui/button"
 import { X } from "lucide-react"
 import { Message } from "@/model/User.model"
-import { toast } from "sonner"
+import { toast } from "react-toastify"
 import axios from "axios"
 import { ApiResponse } from "@/types/ApiResponse"
 

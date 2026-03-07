@@ -5,7 +5,7 @@ import * as z from 'zod'
 import Link from 'next/link'
 import { useEffect, useState } from "react"
 import { useDebounceCallback } from "usehooks-ts"
-import { toast } from "sonner"
+import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
 import { signUpSchema } from "@/schemas/signUpSchema"
 import axios, { AxiosError } from "axios"
