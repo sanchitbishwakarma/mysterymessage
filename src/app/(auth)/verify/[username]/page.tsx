@@ -6,7 +6,7 @@ import axios, { AxiosError } from 'axios'
 import { useParams, useRouter } from 'next/navigation'
 import React from 'react'
 import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { toast } from 'sonner'
+import { toast } from 'react-toastify'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { Input } from '@/components/ui/input'
