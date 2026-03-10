@@ -47,7 +47,7 @@ export default function MessageCard({ message, onMessageDelete }: MessageCardPro
                     <CardTitle className="text-xl">{message.content}</CardTitle>
                     <AlertDialog>
                         <AlertDialogTrigger asChild>
-                            <Button variant="destructive" size="icon">
+                            <Button variant="destructive" size="icon" className="hover:cursor-pointer">
                                 <X className="w-5 h-5" />
                             </Button>
                         </AlertDialogTrigger>
@@ -60,8 +60,8 @@ export default function MessageCard({ message, onMessageDelete }: MessageCardPro
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={handleDeleteConfirm}>Continue</AlertDialogAction>
+                                <AlertDialogCancel className="hover:cursor-pointer">Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleDeleteConfirm} className="hover:cursor-pointer bg-red-600 hover:bg-red-800">Continue</AlertDialogAction>
                             </AlertDialogFooter>
                         </AlertDialogContent>
                     </AlertDialog>

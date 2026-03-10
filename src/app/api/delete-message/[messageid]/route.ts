@@ -5,12 +5,15 @@ import { User } from 'next-auth';
 import { Message } from '@/model/User.model';
 import { NextRequest } from 'next/server';
 import { AuthOptions } from '../../auth/[...nextauth]/options';
+import mongoose from 'mongoose';
 
 export async function DELETE(
   request: Request,
   { params }: { params: { messageid: string } }
 ) {
-  const messageId = params.messageid;
+  const { messageid } = await params;
+  const messageObjectId = new mongoose.Types.ObjectId(messageid);
+
   await dbConnect();
   const session = await getServerSession(AuthOptions);
   const _user: User = session?.user as User;
@@ -23,8 +26,8 @@ export async function DELETE(
 
   try {
     const updateResult = await UserModel.updateOne(
-      { _id: _user._id },
-      { $pull: { messages: { _id: messageId } } }
+      { email: _user.email },
+      { $pull: { messages: { _id: messageObjectId } } }
     );
 
     if (updateResult.modifiedCount === 0) {

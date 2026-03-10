@@ -25,27 +25,27 @@ export async function GET(request: Request) {
 
     try {
         // TODO: find the what it returns
-        const user = await UserModel.aggregate([
+        const userMessages = await UserModel.aggregate([
             { $match: { _id: userId } },
-            { $unwind: "$message" },
-            { $sort: { "message.createdAt": -1 } },
-            { $group: { _id: "$_id", messages: { $push: "$message" } } },
-        ]);
+            { $unwind: "$messages" },
+            { $sort: { "messages.createdAt": -1 } },
+            { $group: { _id: "$_id", messages: { $push: "$messages" } } },
+        ]).exec();
 
-        if (!user || user.length === 0) {
+        if (!userMessages || userMessages.length === 0) {
             return Response.json(
                 {
-                    success: false,
-                    message: "User not found",
+                    success: true,
+                    messages: [],
                 },
-                { status: 401 },
+                { status: 200 },
             );
         }
 
         return Response.json(
             {
                 success: true,
-                messages: user[0].messages,
+                messages: userMessages[0].messages,
             },
             { status: 200 },
         );
