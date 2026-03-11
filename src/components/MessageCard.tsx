@@ -17,7 +17,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "./ui/button"
-import { X } from "lucide-react"
+import { Share2, X } from "lucide-react"
 import { Message } from "@/model/User.model"
 import { toast } from "react-toastify"
 import axios from "axios"
@@ -40,11 +40,36 @@ export default function MessageCard({ message, onMessageDelete }: MessageCardPro
         }
     }
 
+    const handleShare = async () => {
+        try {
+            const imageUrl = `/api/share-image?message=${encodeURIComponent(message.content)}`
+            if (navigator.share) {
+                await navigator.share({
+                    title: "Anonymous Feedback",
+                    text: message.content,
+                    url: imageUrl
+                })
+            } else {
+                window.open(imageUrl, "_blank")
+            }
+        } catch (error) {
+            toast.error("Failed to share message")
+        }
+    }
+
     return (
         <Card className="relative">
             <CardHeader>
                 <div className="flex justify-between items-start">
                     <CardTitle className="text-xl">{message.content}</CardTitle>
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={handleShare}
+                        className="hover:cursor-pointer"
+                    >
+                        <Share2 className="w-5 h-5" />
+                    </Button>
                     <AlertDialog>
                         <AlertDialogTrigger asChild>
                             <Button variant="destructive" size="icon" className="hover:cursor-pointer">
