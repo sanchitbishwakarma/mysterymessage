@@ -8,8 +8,8 @@ import { AuthOptions } from '../../auth/[...nextauth]/options';
 import mongoose from 'mongoose';
 
 export async function DELETE(
-  request: Request,
-  { params }: { params: { messageid: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ messageid: string }> }
 ) {
   const { messageid } = await params;
   const messageObjectId = new mongoose.Types.ObjectId(messageid);

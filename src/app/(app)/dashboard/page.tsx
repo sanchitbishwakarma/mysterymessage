@@ -27,13 +27,13 @@ export default function DashboardPage() {
   })
 
   const { register, watch, setValue } = form;
-  const acceptMessages = watch('acceptingMessages')
+  const acceptMessages = watch('acceptingMessage')
 
   const fetchAcceptMessage = useCallback(async () => {
     setIsSwitchLoading(true)
     try {
       const response = await axios.get<ApiResponse>('/api/accept-messages')
-      setValue("acceptingMessages", !!response.data.isAcceptingMessage)
+      setValue("acceptingMessage", !!response.data.isAcceptingMessage)
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>
       toast.error(axiosError.response?.data.message ?? 'Failed to fetch message settings')
@@ -70,7 +70,7 @@ export default function DashboardPage() {
       const response = await axios.post<ApiResponse>('/api/accept-messages', {
         acceptMessages: !acceptMessages
       })
-      setValue("acceptingMessages", !acceptMessages)
+      setValue("acceptingMessage", !acceptMessages)
       toast.success(response.data.message)
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>
@@ -114,7 +114,7 @@ export default function DashboardPage() {
 
       <div className="mb-4 flex items-center">
         <Switch
-          {...register('acceptingMessages')}
+          {...register('acceptingMessage')}
           checked={acceptMessages}
           onCheckedChange={handleSwitchChange}
           disabled={isSwitchLoading}
